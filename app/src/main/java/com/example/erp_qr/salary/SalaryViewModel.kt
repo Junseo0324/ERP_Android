@@ -7,7 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.erp_qr.data.SalaryDTO
 import com.example.erp_qr.data.repository.LoginRepository
-import com.example.erp_qr.retrofit.RetrofitApplication
+import com.example.erp_qr.retrofit.RetrofitProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import retrofit2.Call
 import retrofit2.Callback
@@ -59,7 +59,7 @@ class SalaryViewModel @Inject constructor(private val loginRepository: LoginRepo
 
 
     private fun loadSalaryData(employeeId: String, month: String) {
-        RetrofitApplication.networkService.getSalaryList(employeeId, month).clone()
+        RetrofitProvider.networkService.getSalaryList(employeeId, month).clone()
             ?.enqueue(object : Callback<SalaryDTO> {
                 override fun onResponse(call: Call<SalaryDTO>, response: Response<SalaryDTO>) {
                     if (response.isSuccessful){

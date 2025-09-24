@@ -3,8 +3,8 @@ package com.example.erp_qr.login
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.erp_qr.retrofit.RetrofitApplication
 import com.example.erp_qr.data.repository.LoginRepository
+import com.example.erp_qr.retrofit.RetrofitProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import retrofit2.Call
 import retrofit2.Callback
@@ -23,7 +23,7 @@ class LoginViewModel @Inject constructor(
 
 
     fun Loginsucess(){
-        RetrofitApplication.networkService.login(employeeNumber.value.toString(),email.value.toString()).clone().enqueue(object :
+        RetrofitProvider.networkService.login(employeeNumber.value.toString(),email.value.toString()).clone().enqueue(object :
             Callback<Map<String, Any>> {
             override fun onResponse(call: Call<Map<String, Any>>, response: Response<Map<String, Any>>) {
                 if(response.isSuccessful){
