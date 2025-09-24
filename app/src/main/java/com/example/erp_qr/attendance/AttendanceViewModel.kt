@@ -6,9 +6,9 @@ import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.erp_qr.retrofit.RetrofitApplication
 import com.example.erp_qr.data.AttendanceRecordDTO
 import com.example.erp_qr.data.repository.LoginRepository
+import com.example.erp_qr.retrofit.RetrofitProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import org.threeten.bp.LocalDate
 import retrofit2.Call
@@ -47,7 +47,7 @@ class AttendanceViewModel @Inject constructor(
     }
 
     private fun loadAttendanceData(employeeId: String,month: String){
-        RetrofitApplication.networkService.getAttendanceList(employeeId,month).clone()?.enqueue(object : Callback<List<AttendanceRecordDTO>>{
+        RetrofitProvider.networkService.getAttendanceList(employeeId,month).clone()?.enqueue(object : Callback<List<AttendanceRecordDTO>>{
             override fun onResponse(call: Call<List<AttendanceRecordDTO>>, response: Response<List<AttendanceRecordDTO>>) {
                 if (response.isSuccessful) {
                     _attendanceData.value = response.body() ?: emptyList()

@@ -4,9 +4,9 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.erp_qr.retrofit.RetrofitApplication
 import com.example.erp_qr.data.VacationDTO
 import com.example.erp_qr.data.repository.LoginRepository
+import com.example.erp_qr.retrofit.RetrofitProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import retrofit2.Call
 import retrofit2.Callback
@@ -27,7 +27,7 @@ class VacationViewModel @Inject constructor(private val loginRepository: LoginRe
     }
 
     private fun loadVacationData(employeeId: String) {
-        RetrofitApplication.networkService.getVacationList(employeeId).clone()?.enqueue(object : Callback<List<VacationDTO>>{
+        RetrofitProvider.networkService.getVacationList(employeeId).clone()?.enqueue(object : Callback<List<VacationDTO>>{
             override fun onResponse(call: Call<List<VacationDTO>>, response: Response<List<VacationDTO>>) {
                if(response.isSuccessful){
                    if(response.body() != null){

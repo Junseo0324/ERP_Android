@@ -3,9 +3,9 @@ package com.example.erp_qr.notification
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.erp_qr.retrofit.RetrofitApplication
 import com.example.erp_qr.data.NotificationDTO
 import com.example.erp_qr.data.repository.LoginRepository
+import com.example.erp_qr.retrofit.RetrofitProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import retrofit2.Call
 import retrofit2.Callback
@@ -29,7 +29,7 @@ class NotificationViewModel @Inject constructor(private val loginRepository: Log
     private fun getNotificationUnreadData(){
         val data = loginRepository.getLoginData()
         val employeeId = data["employeeId"] ?: "No ID Found"
-       RetrofitApplication.networkService.getUnreadNotificationCount(employeeId).clone()?.enqueue(object : Callback<List<NotificationDTO>>{
+        RetrofitProvider.networkService.getUnreadNotificationCount(employeeId).clone()?.enqueue(object : Callback<List<NotificationDTO>>{
            override fun onResponse(call: Call<List<NotificationDTO>>, response: Response<List<NotificationDTO>>) {
                if(response.isSuccessful){
                    _notificationData.value = response.body() ?: emptyList()
@@ -47,7 +47,7 @@ class NotificationViewModel @Inject constructor(private val loginRepository: Log
 
     fun markNotificationAsRead(notificationId: Long){
         Log.d(TAG, "markNotificationAsRead: call id : $notificationId")
-        RetrofitApplication.networkService.markNotificationAsRead(notificationId).clone()?.enqueue(object :Callback<Void>{
+        RetrofitProvider.networkService.markNotificationAsRead(notificationId).clone()?.enqueue(object :Callback<Void>{
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
                 if(response.isSuccessful) {
                     Log.d(TAG, "onResponse: $notificationId")
