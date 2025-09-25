@@ -42,7 +42,6 @@ class MainActivity : AppCompatActivity() {
         setupBottomNavigation()
         setObserve()
 
-        // 초기 화면 설정
         if (savedInstanceState == null) {
             loadFragment(MainFragment())
         }
@@ -59,7 +58,7 @@ class MainActivity : AppCompatActivity() {
         val navigationView = binding.navigationView
         val headerView = navigationView.getHeaderView(0)
 
-        val headerBinding = NavHeaderBinding.bind(headerView) // 바인딩 객체 생성
+        val headerBinding = NavHeaderBinding.bind(headerView)
         headerBinding.viewModel = viewModel
         headerBinding.lifecycleOwner = this
     }

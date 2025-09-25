@@ -16,7 +16,6 @@ class MainFragment : Fragment() {
     private val viewModel: MainFragmentViewModel by viewModels()
     private lateinit var binding: FragmentMainBinding
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        // DataBinding 초기화
         binding = FragmentMainBinding.inflate(inflater, container, false).apply {
             lifecycleOwner = viewLifecycleOwner
             this.viewModel = this@MainFragment.viewModel
