@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment
 import com.example.erp_qr.attendance.AttendanceFragment
 import com.example.erp_qr.databinding.ActivityMainBinding
 import com.example.erp_qr.fragment.SalaryFragment
-import com.example.erp_qr.fragment.VacationFragment
+import com.example.erp_qr.vacation.VacationFragment
 import com.example.erp_qr.login.LoginActivity
 import com.example.erp_qr.notification.NotificationActivity
 import com.example.erp_qr.qr.MainFragment

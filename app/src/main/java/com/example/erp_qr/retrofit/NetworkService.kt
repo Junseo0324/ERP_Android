@@ -23,7 +23,7 @@ interface NetworkService {
 
     //직원의 휴가 조회
     @GET("/vacation/android/{employeeId}")
-    fun getVacationList(@Path("employeeId") employeeId: String): Call<List<VacationDTO>>
+    suspend fun getVacationList(@Path("employeeId") employeeId: String): List<VacationDTO>
 
     //급여 정보 가져오기
     @GET("/salary/android/{employeeId}/{month}")

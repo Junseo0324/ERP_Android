@@ -1,4 +1,4 @@
-package com.example.erp_qr.fragment
+package com.example.erp_qr.vacation
 
 import android.os.Build
 import android.os.Bundle
@@ -18,12 +18,13 @@ import dagger.hilt.android.AndroidEntryPoint
 @RequiresApi(Build.VERSION_CODES.O)
 @AndroidEntryPoint
 class VacationFragment : Fragment() {
-    private lateinit var binding: FragmentVacationBinding
+    private var _binding: FragmentVacationBinding? = null
+    private val binding get() = _binding!!
     private val viewModel: VacationViewModel by viewModels()
     private val vacationAdapter by lazy { VacationAdapter() }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        binding = FragmentVacationBinding.inflate(inflater, container, false)
+        _binding = FragmentVacationBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -53,5 +54,10 @@ class VacationFragment : Fragment() {
         viewModel.vacationData.observe(viewLifecycleOwner) { vacationList ->
             vacationAdapter.submitList(vacationList)
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

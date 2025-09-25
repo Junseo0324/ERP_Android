@@ -2,6 +2,8 @@ package com.example.erp_qr.di
 
 import android.content.Context
 import android.content.SharedPreferences
+import com.example.erp_qr.retrofit.NetworkService
+import com.example.erp_qr.retrofit.RetrofitProvider
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -22,5 +24,11 @@ object AppModule {
             "erp_qr",
             Context.MODE_PRIVATE
         )
+    }
+
+    @Provides
+    @Singleton
+    fun provideRetrofitService(): NetworkService {
+        return RetrofitProvider.networkService
     }
 }
