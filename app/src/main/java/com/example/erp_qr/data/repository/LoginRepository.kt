@@ -5,7 +5,7 @@ import javax.inject.Inject
 
 class LoginRepository @Inject constructor(private val sharedPreferences: SharedPreferences) {
 
-    fun saveLoginData(employeeId: String,employeeNumber: String, email: String, name: String, department: String, position: String, photo: String) {
+    fun saveLoginData(employeeId: String,employeeNumber: String, email: String, name: String, department: String, position: String, photo: String,companyName: String) {
         val editor = sharedPreferences.edit()
         editor.putString("employeeId", employeeId)
         editor.putString("employeeNumber", employeeNumber)
@@ -14,6 +14,7 @@ class LoginRepository @Inject constructor(private val sharedPreferences: SharedP
         editor.putString("department", department)
         editor.putString("position", position)
         editor.putString("photo", photo)
+        editor.putString("companyName", companyName)
         editor.apply()
     }
 
@@ -25,6 +26,7 @@ class LoginRepository @Inject constructor(private val sharedPreferences: SharedP
         val department = sharedPreferences.getString("department", null)
         val position = sharedPreferences.getString("position", null)
         val photo = sharedPreferences.getString("photo", null)
+        val companyName = sharedPreferences.getString("companyName", null)
         return mapOf(
             "employeeId" to (employeeId ?: ""),
             "employeeNumber" to (employeeNumber ?: ""),
@@ -32,7 +34,8 @@ class LoginRepository @Inject constructor(private val sharedPreferences: SharedP
             "name" to (name ?: ""),
             "department" to (department ?: ""),
             "position" to (position ?: ""),
-            "photo" to (photo ?: "")
+            "photo" to (photo ?: ""),
+            "companyName" to (companyName ?: "")
         )
     }
 

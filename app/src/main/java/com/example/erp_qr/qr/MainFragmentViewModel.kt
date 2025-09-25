@@ -15,12 +15,17 @@ class MainFragmentViewModel @Inject constructor(
     val employeeID: LiveData<String> get() = _employeeID
 
 
+    private val _companyName = MutableLiveData<String>()
+    val companyName: LiveData<String> get() = _companyName
+
+
     init {
-        loadEmployeeID()
+        loadEmployeeData()
     }
 
-    private fun loadEmployeeID() {
+    private fun loadEmployeeData() {
         val data = loginRepository.getLoginData()
         _employeeID.value = data["employeeId"] ?: "No ID Found"
+        _companyName.value = data["companyName"] ?: "No company Found"
     }
 }

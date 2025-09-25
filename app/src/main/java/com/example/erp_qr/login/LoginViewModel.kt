@@ -38,13 +38,15 @@ class LoginViewModel @Inject constructor(
                             val department = responseBody["department"]?.toString()?:""
                             val position = responseBody["position"]?.toString()?:""
                             val photo = responseBody["photo"]?.toString()?:""
+                            val companyName = responseBody["companyName"]?.toString()?:""
                             loginRepository.saveLoginData(employeeId,
                                 employeeNumber.value.toString(),
                                 email.value.toString(),
                                 employeeName,
                                 department,
                                 position,
-                                photo)
+                                photo,
+                                companyName)
                         }
                     } else {
                         errorMessage.value = "Server response is empty."
