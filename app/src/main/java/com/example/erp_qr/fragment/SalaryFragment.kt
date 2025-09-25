@@ -2,7 +2,6 @@ package com.example.erp_qr.fragment
 
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,8 +10,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.erp_qr.MainActivity
-import com.example.erp_qr.adapter.AllowanceAdapter
-import com.example.erp_qr.adapter.DeductionAdapter
 import com.example.erp_qr.adapter.SalaryDetailAdapter
 import com.example.erp_qr.databinding.FragmentSalaryBinding
 import com.example.erp_qr.salary.SalaryViewModel
