@@ -28,8 +28,6 @@ class MainFragmentViewModel @Inject constructor(
     val today: LiveData<String> get() = _today
 
 
-
-
     init {
         loadEmployeeData()
         loadTodayDate()
