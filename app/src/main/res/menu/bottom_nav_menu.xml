@@ -6,17 +6,17 @@
         android:layout_height="24dp"
         android:icon="@drawable/ic_home"
         android:scaleType="fitCenter"
-        android:title="Home" />
+        android:title="홈" />
     <item
         android:id="@+id/nav_vacation"
-        android:icon="@drawable/ic_vacation"
-        android:title="Vacation" />
+        android:icon="@drawable/ic_calendar"
+        android:title="휴가" />
     <item
         android:id="@+id/nav_attendance"
-        android:icon="@drawable/ic_attendance"
-        android:title="Attendance" />
+        android:icon="@drawable/ic_schedule"
+        android:title="근태" />
     <item
         android:id="@+id/nav_salary"
-        android:icon="@drawable/ic_salary"
-        android:title="Salary" />
+        android:icon="@drawable/ic_money"
+        android:title="급여" />
 </menu>
