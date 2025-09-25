@@ -14,6 +14,7 @@ import com.example.erp_qr.adapter.VacationAdapter
 import com.example.erp_qr.databinding.FragmentVacationBinding
 import com.example.erp_qr.vaction.VacationViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import androidx.core.widget.addTextChangedListener
 
 @RequiresApi(Build.VERSION_CODES.O)
 @AndroidEntryPoint
@@ -37,10 +38,14 @@ class VacationFragment : Fragment() {
         super.onStop()
         (activity as? MainActivity)?.showToolbar(true)
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
         observeViewModel()
+        binding.editTextSearch.addTextChangedListener { it ->
+            viewModel.filterVacations(it.toString())
+        }
     }
 
     private fun setupRecyclerView() {
@@ -51,7 +56,7 @@ class VacationFragment : Fragment() {
     }
 
     private fun observeViewModel() {
-        viewModel.vacationData.observe(viewLifecycleOwner) { vacationList ->
+        viewModel.filteredData.observe(viewLifecycleOwner) { vacationList ->
             vacationAdapter.submitList(vacationList)
         }
     }

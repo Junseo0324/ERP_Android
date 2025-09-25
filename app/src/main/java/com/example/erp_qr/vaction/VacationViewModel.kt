@@ -24,16 +24,35 @@ class VacationViewModel @Inject constructor(
     private val _vacationData = MutableLiveData<List<VacationDTO>>()
     val vacationData: LiveData<List<VacationDTO>> get() = _vacationData
 
+    private val _filteredData = MutableLiveData<List<VacationDTO>>() // 검색된 데이터
+    val filteredData: LiveData<List<VacationDTO>> get() = _filteredData
+
     init {
         val data = loginRepository.getLoginData()
         val employeeId = data["employeeId"] ?: "No ID Found"
         viewModelScope.launch {
             try {
-                _vacationData.value = vacationRepository.getVacationList(employeeId)
+                val list = vacationRepository.getVacationList(employeeId)
+                _vacationData.value = list
+                _filteredData.value = list
             } catch (e: Exception) {
                 Log.d("VacationViewModel", "Error: ${e.message}")
             }
         }
     }
+
+    fun filterVacations(query: String) {
+        val list = _vacationData.value ?: return
+        if (query.isBlank()) {
+            _filteredData.value = list
+        } else {
+            _filteredData.value = list.filter { vacation ->
+                vacation.leaveItemName.contains(query, ignoreCase = true) ||
+                        vacation.reason.contains(query, ignoreCase = true) ||
+                        vacation.displayStatus.contains(query, ignoreCase = true)
+            }
+        }
+    }
+
     
 }
