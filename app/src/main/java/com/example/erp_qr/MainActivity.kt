@@ -6,12 +6,10 @@ import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.example.erp_qr.attendance.AttendanceFragment
 import com.example.erp_qr.databinding.ActivityMainBinding
-import com.example.erp_qr.databinding.NavHeaderBinding
 import com.example.erp_qr.fragment.SalaryFragment
 import com.example.erp_qr.fragment.VacationFragment
 import com.example.erp_qr.login.LoginActivity
@@ -37,8 +35,6 @@ class MainActivity : AppCompatActivity() {
 
         setSupportActionBar(binding.toolbar)
 
-        setupNavigationHeader()
-        setupDrawerNavigation()
         setupBottomNavigation()
         setObserve()
 
@@ -51,16 +47,6 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager.beginTransaction()
             .replace(R.id.main_fragment_container, fragment)
             .commit()
-    }
-
-
-    private fun setupNavigationHeader() {
-        val navigationView = binding.navigationView
-        val headerView = navigationView.getHeaderView(0)
-
-        val headerBinding = NavHeaderBinding.bind(headerView)
-        headerBinding.viewModel = viewModel
-        headerBinding.lifecycleOwner = this
     }
 
     private fun setObserve(){
@@ -82,17 +68,6 @@ class MainActivity : AppCompatActivity() {
             Log.d("MainViewModel", "Unread count updated: $unreadCount")
             binding.badgeNotification.text = unreadCount.toString()
             binding.badgeNotification.visibility = if (unreadCount > 0) View.VISIBLE else View.GONE
-        }
-    }
-
-    private fun setupDrawerNavigation() {
-        binding.navigationView.setNavigationItemSelectedListener { menuItem ->
-            when (menuItem.itemId) {
-                R.id.nav_logout -> viewModel.logout()
-                // 다른 메뉴 처리
-            }
-            binding.drawLayout.closeDrawer(GravityCompat.START)
-            true
         }
     }
 
