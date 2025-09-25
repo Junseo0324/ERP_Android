@@ -43,6 +43,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    fun showToolbar(show: Boolean) {
+        binding.toolbar.visibility = if (show) View.VISIBLE else View.GONE
+    }
+
     private fun loadFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction()
             .replace(R.id.main_fragment_container, fragment)

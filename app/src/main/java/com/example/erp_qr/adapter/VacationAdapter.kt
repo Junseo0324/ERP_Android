@@ -1,13 +1,19 @@
 package com.example.erp_qr.adapter
 
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.erp_qr.data.VacationDTO
 import com.example.erp_qr.databinding.ItemVacationBinding
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.time.temporal.ChronoUnit
 
+@RequiresApi(Build.VERSION_CODES.O)
 class VacationAdapter : ListAdapter<VacationDTO, VacationAdapter.VacationViewHolder>(DiffCallback()) {
 
     class VacationViewHolder(private val binding: ItemVacationBinding) :
@@ -15,7 +21,7 @@ class VacationAdapter : ListAdapter<VacationDTO, VacationAdapter.VacationViewHol
 
         fun bind(vacation: VacationDTO) {
             binding.vacation = vacation
-            binding.tvStatus.setTextColor(
+            binding.textVacationStatus.setTextColor(
                 when (vacation.status) {
                     "APPROVED" -> itemView.context.getColor(android.R.color.holo_green_dark)
                     "PENDING" -> itemView.context.getColor(android.R.color.holo_orange_dark)
@@ -23,6 +29,21 @@ class VacationAdapter : ListAdapter<VacationDTO, VacationAdapter.VacationViewHol
                     else -> itemView.context.getColor(android.R.color.darker_gray)
                 }
             )
+            binding.textVacationDuration.text = calculateDuration(vacation.startDate, vacation.endDate)
+            binding.textApprover.text = "${vacation.name} • ${vacation.position} • ${vacation.department}"
+        }
+
+
+        private fun calculateDuration(start: String, end: String): String {
+            return try {
+                val startDate = start.split("-")
+                val endDate = end.split("-")
+
+                val days = endDate[1].toInt() - startDate[1].toInt()
+                "${days}일"
+            } catch (e: Exception) {
+                "기간 계산 불가"
+            }
         }
     }
 
