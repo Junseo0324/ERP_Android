@@ -248,6 +248,7 @@
                             android:layout_marginEnd="12dp" />
 
                         <TextView
+                            android:id="@+id/textBaseSalary"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="₩3,500,000"
@@ -295,6 +296,7 @@
                             android:layout_marginEnd="12dp" />
 
                         <TextView
+                            android:id="@+id/textTotalAllowance"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="+₩750,000"
@@ -356,9 +358,10 @@
                             android:layout_marginEnd="12dp" />
 
                         <TextView
+                            android:id="@+id/textTotalDeduction"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="-₩868,000"
+                            android:text="-₩0"
                             android:textColor="#E74C3C"
                             android:textSize="14sp"
                             android:textStyle="bold" />
@@ -424,10 +427,10 @@
                     </LinearLayout>
 
                     <TextView
-                        android:id="@+id/textFinalNetSalary"
+                        android:id="@+id/textMonthlySalary"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="₩3,382,000"
+                        android:text="₩0"
                         android:textColor="#FFFFFF"
                         android:textSize="24sp"
                         android:textStyle="bold" />
@@ -480,6 +483,7 @@
                             android:textSize="14sp" />
 
                         <TextView
+                            android:id="@+id/textEmployeeId"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="1001"
@@ -507,9 +511,10 @@
                             android:textSize="14sp" />
 
                         <TextView
+                            android:id="@+id/textPayDate"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="2024년 12월 26일"
+                            android:text="2024년 12월 10일"
                             android:textColor="#2C3E50"
                             android:textSize="14sp"
                             android:textStyle="bold" />
@@ -534,6 +539,7 @@
                             android:textSize="14sp" />
 
                         <TextView
+                            android:id="@+id/textPayStatus"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="지급완료"

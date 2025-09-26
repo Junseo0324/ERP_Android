@@ -5,10 +5,12 @@ import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.erp_qr.data.SalaryDTO
 import com.example.erp_qr.data.repository.LoginRepository
 import com.example.erp_qr.retrofit.RetrofitProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -17,7 +19,10 @@ import javax.inject.Inject
 
 @RequiresApi(Build.VERSION_CODES.O)
 @HiltViewModel
-class SalaryViewModel @Inject constructor(private val loginRepository: LoginRepository): ViewModel() {
+class SalaryViewModel @Inject constructor(
+    private val loginRepository: LoginRepository,
+    private val salaryRepository: SalaryRepository
+): ViewModel() {
 
     private val _salaryData = MutableLiveData<SalaryDTO>()
     val salaryData: MutableLiveData<SalaryDTO> get() = _salaryData
@@ -59,37 +64,30 @@ class SalaryViewModel @Inject constructor(private val loginRepository: LoginRepo
 
 
     private fun loadSalaryData(employeeId: String, month: String) {
-        RetrofitProvider.networkService.getSalaryList(employeeId, month).clone()
-            ?.enqueue(object : Callback<SalaryDTO> {
-                override fun onResponse(call: Call<SalaryDTO>, response: Response<SalaryDTO>) {
-                    if (response.isSuccessful){
-                        _salaryData.value = response.body()!!
-                    }else{
-                        Log.d(TAG, "currentMonth : $_currentMonth")
-                        Log.d(TAG, "Response Failed: Code = ${response.code()}, Message = ${response.message()}, ErrorBody = ${response.errorBody()?.string()}")
-                    }
-                }
-
-                override fun onFailure(call: Call<SalaryDTO>, t: Throwable) {
-                    Log.d(TAG, "onFailure: ${t.message}")
-                }
-
-            })
+        viewModelScope.launch {
+            try {
+                val salary = salaryRepository.getSalaryList(employeeId, month)
+                _salaryData.value = salary
+            } catch (e: Exception) {
+                Log.e(TAG, "Error loading salary: ${e.message}")
+            }
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun getMonth(): String {
-        val currentDate = LocalDate.now() // 오늘 날짜
+        val currentDate = LocalDate.now()
         val year = currentDate.year
-        val month = currentDate.monthValue.toString().padStart(2, '0') // 1월은 "01" 형식으로
+        val month = currentDate.monthValue.toString().padStart(2, '0')
         return "$year-$month"
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun changeMonth(increment: Int) {
         val currentDate = LocalDate.parse("${_currentMonth.value}-01")
-        val newDate = currentDate.plusMonths(increment.toLong()) // Increment (+1) or Decrement (-1)
+        val newDate = currentDate.plusMonths(increment.toLong())
         _currentMonth.value = "${newDate.year}-${newDate.monthValue.toString().padStart(2, '0')}"
+
         val employeeId = loginRepository.getLoginData()["employeeId"] ?: "No ID Found"
         loadSalaryData(employeeId, _currentMonth.value!!)
     }

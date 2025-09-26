@@ -27,7 +27,7 @@ interface NetworkService {
 
     //급여 정보 가져오기
     @GET("/salary/android/{employeeId}/{month}")
-    fun getSalaryList(@Path("employeeId") employeeId: String,@Path("month") month: String): Call<SalaryDTO>
+    suspend fun getSalaryList(@Path("employeeId") employeeId: String,@Path("month") month: String): SalaryDTO
 
 
     //안읽은 알람

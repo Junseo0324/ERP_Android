@@ -1,12 +1,12 @@
 package com.example.erp_qr.adapter
 
-import android.R
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.erp_qr.R
 import com.example.erp_qr.databinding.ItemSalaryDetailBinding
 
 class SalaryDetailAdapter(
@@ -30,21 +30,19 @@ class SalaryDetailAdapter(
         fun bind(entry: Map.Entry<String, Double>) {
             val (name, amount) = entry
 
-            // 항목명
             binding.textItemName.text = name
 
-            // 금액 포맷
             val formatted = "₩%,d".format(amount.toInt())
 
             if (isAllowance) {
                 binding.textItemAmount.text = "+$formatted"
                 binding.textItemAmount.setTextColor(
-                    ContextCompat.getColor(binding.root.context, R.color.holo_green_light)
+                    ContextCompat.getColor(binding.root.context, R.color.salary_allowance)
                 )
             } else {
                 binding.textItemAmount.text = "-$formatted"
                 binding.textItemAmount.setTextColor(
-                    ContextCompat.getColor(binding.root.context, R.color.holo_red_light) // 빨강색
+                    ContextCompat.getColor(binding.root.context, R.color.salary_deduction)
                 )
             }
         }

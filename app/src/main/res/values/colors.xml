@@ -13,4 +13,7 @@
     <color name="selectedBtn">#424242</color>
     <color name="drawer_icon_color">#757575</color>
     <color name="drawer_text_color">#000000</color>
+    <color name="salary_allowance">#27AE60</color>
+    <color name="salary_deduction">#E74C3C</color>
+
 </resources>
