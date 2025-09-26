@@ -30,7 +30,6 @@ class PayrollWebActivity : AppCompatActivity() {
         binding.webView.settings.domStorageEnabled = true
         binding.webView.webViewClient = WebViewClient()
 
-        // 전달받은 월 (예: 2025-09)
         val month = intent.getStringExtra("month") ?: "2025-09"
 
         binding.webView.loadUrl("${RetrofitProvider.BASE_URL}/certificate/salary?month=$month")
@@ -65,14 +64,11 @@ class PayrollWebActivity : AppCompatActivity() {
         val pageInfo = PdfDocument.PageInfo.Builder(binding.webView.width, binding.webView.height, 1).create()
         val page = pdfDocument.startPage(pageInfo)
 
-        // WebView 내용을 캡처
         binding.webView.draw(page.canvas)
         pdfDocument.finishPage(page)
 
-        // 파일명
         val fileName = "급여명세서_${System.currentTimeMillis()}.pdf"
 
-        // Downloads 폴더에 저장 (Android 10 이상)
         val contentValues = ContentValues().apply {
             put(MediaStore.MediaColumns.DISPLAY_NAME, fileName)
             put(MediaStore.MediaColumns.MIME_TYPE, "application/pdf")
