@@ -1,5 +1,6 @@
 package com.example.erp_qr.fragment
 
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,6 +16,7 @@ import com.example.erp_qr.MainActivity
 import com.example.erp_qr.R
 import com.example.erp_qr.adapter.SalaryDetailAdapter
 import com.example.erp_qr.databinding.FragmentSalaryBinding
+import com.example.erp_qr.payrollcertificate.PayrollWebActivity
 import com.example.erp_qr.salary.SalaryViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.time.LocalDate
@@ -35,6 +38,13 @@ class SalaryFragment : Fragment() {
         setupRecyclerView()
         setupListeners()
         setObservers()
+        binding.btnDownload.setOnClickListener {
+            val intent = Intent(requireContext(), PayrollWebActivity::class.java)
+            intent.putExtra("month", viewModel.currentMonth.value.toString())
+            startActivity(intent)
+        }
+
+
         return binding.root
     }
 
