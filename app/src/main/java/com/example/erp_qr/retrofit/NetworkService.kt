@@ -19,7 +19,7 @@ interface NetworkService {
 
     //직원의 근태 조회  EX) localhost:8080/record/android/list/11/10
     @GET("/record/android/list/{employeeId}/{month}")
-    fun getAttendanceList(@Path("employeeId") employeeId: String,@Path("month") month: String): Call<List<AttendanceRecordDTO>>
+    suspend fun getAttendanceList(@Path("employeeId") employeeId: String,@Path("month") month: String): List<AttendanceRecordDTO>
 
     //직원의 휴가 조회
     @GET("/vacation/android/{employeeId}")

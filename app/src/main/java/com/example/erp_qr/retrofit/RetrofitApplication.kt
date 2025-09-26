@@ -8,7 +8,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.lang.reflect.Type
 
 object RetrofitProvider {
-    val BASE_URL = "http://192.168.219.121:8080"
+    val BASE_URL = "http://172.30.1.17:8080"
 
     private val nullOnEmptyConverterFactory: Converter.Factory = object : Converter.Factory() {
         override fun responseBodyConverter(
