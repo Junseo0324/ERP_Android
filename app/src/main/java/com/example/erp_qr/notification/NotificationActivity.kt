@@ -14,31 +14,47 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class NotificationActivity : AppCompatActivity() {
     private lateinit var binding: ActivityNotificationBinding
-    private val viewModel: MainViewModel by viewModels()
+    private val viewModel: NotificationViewModel by viewModels()
     private val adapter = NotificationAdapter { notification ->
         viewModel.markNotificationAsRead(notification.id)
 
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this,R.layout.activity_notification)
-        binding.lifecycleOwner = this
-        binding.viewModel = viewModel
+        binding = ActivityNotificationBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        setupRecyclerView()
+        setupObservers()
+        setupClickListeners()
 
-        setObserve()
-        setRecyclerView()
+        viewModel.loadNotifications()
+
 
     }
 
-    private fun setRecyclerView(){
+    private fun setupRecyclerView() {
         binding.notificaitonRv.adapter = adapter
         binding.notificaitonRv.layoutManager = LinearLayoutManager(this)
     }
 
-
-    private fun setObserve(){
-        viewModel.notificationData.observe(this){ notificationList ->
+    private fun setupObservers() {
+        viewModel.notifications.observe(this) { notificationList ->
             adapter.submitList(notificationList)
+        }
+
+        viewModel.unreadCount.observe(this) { count ->
+            binding.textNotificationCount.text = "읽지 않은 알림 ${count}개"
+        }
+    }
+
+    private fun setupClickListeners() {
+        binding.btnBack.setOnClickListener { finish() }
+
+        binding.btnMarkAllRead.setOnClickListener {
+            val list = viewModel.notifications.value ?: return@setOnClickListener
+            list.forEach { notification ->
+                viewModel.markNotificationAsRead(notification.id)
+            }
         }
     }
 }

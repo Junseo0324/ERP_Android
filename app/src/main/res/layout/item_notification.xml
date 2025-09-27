@@ -6,7 +6,6 @@
     android:orientation="vertical"
     android:background="?android:attr/selectableItemBackground">
 
-    <!-- 알림 카드 -->
     <androidx.cardview.widget.CardView
         android:id="@+id/cardNotification"
         android:layout_width="match_parent"
@@ -25,7 +24,6 @@
             android:orientation="horizontal"
             android:padding="16dp">
 
-            <!-- 알림 아이콘 -->
             <FrameLayout
                 android:layout_width="40dp"
                 android:layout_height="40dp"
@@ -41,25 +39,14 @@
                     android:src="@drawable/ic_login"
                     android:padding="6dp" />
 
-                <!-- 읽지 않음 표시 점 -->
-                <View
-                    android:id="@+id/unreadIndicator"
-                    android:layout_width="8dp"
-                    android:layout_height="8dp"
-                    android:layout_gravity="top|end"
-                    android:background="@drawable/unread_indicator"
-                    android:visibility="visible" />
-
             </FrameLayout>
 
-            <!-- 알림 내용 -->
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:orientation="vertical">
 
-                <!-- 알림 메시지와 상태 태그 -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -94,7 +81,6 @@
 
                 </LinearLayout>
 
-                <!-- 알림 설명 -->
                 <TextView
                     android:id="@+id/textNotificationMessage"
                     android:layout_width="match_parent"
@@ -105,21 +91,11 @@
                     android:layout_marginBottom="8dp"
                     android:lineSpacingExtra="2dp" />
 
-                <!-- ID와 시간 정보 -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:gravity="center_vertical">
-
-                    <TextView
-                        android:id="@+id/textNotificationId"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="ID: ATT_001"
-                        android:textColor="#BDC3C7"
-                        android:textSize="11sp"
-                        android:layout_marginEnd="12dp" />
 
                     <TextView
                         android:id="@+id/textNotificationTime"
@@ -129,24 +105,6 @@
                         android:text="32분 전"
                         android:textColor="#BDC3C7"
                         android:textSize="11sp" />
-
-                    <!-- 읽음 표시 (체크마크) -->
-                    <ImageView
-                        android:id="@+id/iconReadStatus"
-                        android:layout_width="16dp"
-                        android:layout_height="16dp"
-                        android:src="@drawable/ic_check"
-                        android:layout_marginEnd="8dp"
-                        android:visibility="gone" />
-
-                    <!-- 삭제 버튼 -->
-                    <ImageView
-                        android:id="@+id/btnDeleteNotification"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:src="@drawable/ic_delete"
-                        android:background="?android:attr/selectableItemBackgroundBorderless"
-                        android:padding="2dp" />
 
                 </LinearLayout>
 

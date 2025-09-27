@@ -1,6 +1,5 @@
 package com.example.erp_qr.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -21,11 +20,17 @@ class NotificationAdapter(private val onItemClick: (NotificationDTO) -> Unit) : 
 
     class NotificationViewHolder(private val binding: ItemNotificationBinding,private val onItemClick: (NotificationDTO) -> Unit) : RecyclerView.ViewHolder(binding.root){
         fun bind(notification: NotificationDTO){
-            binding.notification = notification
-            binding.executePendingBindings()
+            binding.textNotificationTitle.text = notification.displayType
+            binding.tagNotificationStatus.text = notification.displayType
 
-            binding.root.setOnClickListener{
-                Log.d("NotificationViewModel", "bind: ItemClicked: ${notification.id}")
+            binding.textNotificationMessage.text = notification.displayMessage
+
+            binding.iconNotificationType.setBackgroundResource(notification.iconBackgroundRes)
+            binding.iconNotificationType.setImageResource(notification.iconRes)
+            binding.textNotificationTime.text = notification.createdAt
+
+
+            binding.root.setOnClickListener {
                 onItemClick(notification)
             }
         }

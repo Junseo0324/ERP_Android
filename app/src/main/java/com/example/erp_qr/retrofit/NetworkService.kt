@@ -5,6 +5,7 @@ import com.example.erp_qr.data.NotificationDTO
 import com.example.erp_qr.data.SalaryDTO
 import com.example.erp_qr.data.VacationDTO
 import retrofit2.Call
+import retrofit2.Response
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
@@ -32,9 +33,9 @@ interface NetworkService {
 
     //안읽은 알람
     @GET("/notification/unread/{employeeId}")
-    fun getUnreadNotificationCount(@Path("employeeId") employeeId: String): Call<List<NotificationDTO>>
+    suspend fun getUnreadNotificationList(@Path("employeeId") employeeId: String): List<NotificationDTO>
 
     @POST("/notification/read/{notificationId}")
-    fun markNotificationAsRead(@Path("notificationId") notificationId: Long): Call<Void>
+    suspend fun markNotificationAsRead(@Path("notificationId") notificationId: Long): Unit
 
 }
