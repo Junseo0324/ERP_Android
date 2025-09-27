@@ -10,6 +10,9 @@ import com.example.erp_qr.data.SalaryDTO
 import com.example.erp_qr.login.LoginRepository
 import com.example.erp_qr.retrofit.RetrofitProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
@@ -24,52 +27,33 @@ class SalaryViewModel @Inject constructor(
     private val salaryRepository: SalaryRepository
 ): ViewModel() {
 
-    private val _salaryData = MutableLiveData<SalaryDTO>()
-    val salaryData: MutableLiveData<SalaryDTO> get() = _salaryData
-
-    private val _currentMonth = MutableLiveData<String>()
-    val currentMonth: MutableLiveData<String> get() = _currentMonth
-
-    private val _selectedButton = MutableLiveData<String>()
-    val selectedButton : MutableLiveData<String> get() = _selectedButton
-
-    private val _allowanceState = MutableLiveData<Boolean>(true)
-    val allowanceState : MutableLiveData<Boolean> get() = _allowanceState
-
-    private val _deductionState = MutableLiveData<Boolean>(false)
-    val deductionState : MutableLiveData<Boolean> get() = _deductionState
+    private val _uiState = MutableStateFlow(SalaryUiState())
+    val uiState: StateFlow<SalaryUiState> = _uiState
 
 
     init {
-        _selectedButton.value = "deduction"
         val data = loginRepository.getLoginData()
         val employeeId = data["employeeId"] ?: "No ID Found"
         val todayMonth = getMonth()
-        _currentMonth.value = todayMonth
+        _uiState.update { it.copy(currentMonth = todayMonth) }
         loadSalaryData(employeeId, todayMonth)
-
     }
-
-    fun selectAllowance(){
-        _allowanceState.value = true
-        _deductionState.value = false
-    }
-    fun selectDeduction(){
-        _allowanceState.value = false
-        _deductionState.value = true
-    }
-
-
-
-
 
     private fun loadSalaryData(employeeId: String, month: String) {
         viewModelScope.launch {
+            _uiState.update { it.copy(isLoading = true, errorMessage = null) }
             try {
                 val salary = salaryRepository.getSalaryList(employeeId, month)
-                _salaryData.value = salary
+                _uiState.update { state ->
+                    state.copy(
+                        isLoading = false,
+                        salaryData = salary,
+                        errorMessage = null
+                    )
+                }
             } catch (e: Exception) {
                 Log.e(TAG, "Error loading salary: ${e.message}")
+                _uiState.update { it.copy(isLoading = false, errorMessage = e.message) }
             }
         }
     }
@@ -84,12 +68,13 @@ class SalaryViewModel @Inject constructor(
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun changeMonth(increment: Int) {
-        val currentDate = LocalDate.parse("${_currentMonth.value}-01")
+        val currentDate = LocalDate.parse("${_uiState.value.currentMonth}-01")
         val newDate = currentDate.plusMonths(increment.toLong())
-        _currentMonth.value = "${newDate.year}-${newDate.monthValue.toString().padStart(2, '0')}"
+        val newMonth = "${newDate.year}-${newDate.monthValue.toString().padStart(2, '0')}"
 
         val employeeId = loginRepository.getLoginData()["employeeId"] ?: "No ID Found"
-        loadSalaryData(employeeId, _currentMonth.value!!)
+        _uiState.update { it.copy(currentMonth = newMonth) }
+        loadSalaryData(employeeId, newMonth)
     }
 
     

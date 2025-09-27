@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     android:background="#F8F9FA">
 
-    <!-- 헤더 + 월 선택 (상단 고정) -->
     <LinearLayout
         android:id="@+id/headerSection"
         android:layout_width="match_parent"
@@ -53,7 +52,6 @@
 
         </LinearLayout>
 
-        <!-- 부제목 -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -62,7 +60,6 @@
             android:textSize="14sp"
             android:layout_marginBottom="20dp" />
 
-        <!-- 월 선택 -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="48dp"
@@ -102,32 +99,28 @@
         </LinearLayout>
     </LinearLayout>
 
-    <!-- 스크롤 영역 -->
     <ScrollView
         android:id="@+id/scrollContent"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:fillViewport="true"
-        app:layout_constraintTop_toBottomOf="@id/headerSection"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/headerSection">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!-- 여기 안에 실수령액 카드, 급여 내역, RV, 공제, 지급정보 카드 전부 넣기 -->
-            <!-- (네가 올린 기존 카드들 그대로 이 안으로 옮기면 됨) -->
-            <!-- 실수령액 카드 -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
+                app:cardBackgroundColor="#E3F2FD"
                 app:cardCornerRadius="16dp"
-                app:cardElevation="4dp"
-                app:cardBackgroundColor="#E3F2FD">
+                app:cardElevation="4dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -138,9 +131,9 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
+                        android:layout_marginBottom="8dp"
                         android:gravity="center_vertical"
-                        android:layout_marginBottom="8dp">
+                        android:orientation="horizontal">
 
 
                         <LinearLayout
@@ -171,26 +164,25 @@
                         android:id="@+id/textNetSalary"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
                         android:text="₩3,382,000"
                         android:textColor="#1565C0"
                         android:textSize="32sp"
-                        android:textStyle="bold"
-                        android:layout_marginBottom="8dp" />
+                        android:textStyle="bold" />
 
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
 
-            <!-- 급여 내역 -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="16dp"
+                app:cardBackgroundColor="#FFFFFF"
                 app:cardCornerRadius="16dp"
-                app:cardElevation="2dp"
-                app:cardBackgroundColor="#FFFFFF">
+                app:cardElevation="2dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -201,15 +193,15 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
+                        android:layout_marginBottom="20dp"
                         android:gravity="center_vertical"
-                        android:layout_marginBottom="20dp">
+                        android:orientation="horizontal">
 
                         <ImageView
                             android:layout_width="20dp"
                             android:layout_height="20dp"
-                            android:src="@drawable/ic_list_alt"
-                            android:layout_marginEnd="8dp" />
+                            android:layout_marginEnd="8dp"
+                            android:src="@drawable/ic_list_alt" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -221,14 +213,13 @@
 
                     </LinearLayout>
 
-                    <!-- 기본급 -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
                         android:orientation="horizontal"
                         android:paddingTop="12dp"
-                        android:paddingBottom="12dp"
-                        android:gravity="center_vertical">
+                        android:paddingBottom="12dp">
 
                         <TextView
                             android:layout_width="0dp"
@@ -241,10 +232,10 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginEnd="12dp"
                             android:text="월 기본 급여"
                             android:textColor="#BDC3C7"
-                            android:textSize="11sp"
-                            android:layout_marginEnd="12dp" />
+                            android:textSize="11sp" />
 
                         <TextView
                             android:id="@+id/textBaseSalary"
@@ -262,20 +253,19 @@
                         android:layout_height="1dp"
                         android:background="#F0F0F0" />
 
-                    <!-- 수당 섹션 -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
                         android:orientation="horizontal"
                         android:paddingTop="16dp"
-                        android:paddingBottom="8dp"
-                        android:gravity="center_vertical">
+                        android:paddingBottom="8dp">
 
                         <View
                             android:layout_width="4dp"
                             android:layout_height="16dp"
-                            android:background="#27AE60"
-                            android:layout_marginEnd="12dp" />
+                            android:layout_marginEnd="12dp"
+                            android:background="#27AE60" />
 
                         <TextView
                             android:layout_width="0dp"
@@ -289,10 +279,10 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginEnd="12dp"
                             android:text="각종 수당 합계"
                             android:textColor="#BDC3C7"
-                            android:textSize="11sp"
-                            android:layout_marginEnd="12dp" />
+                            android:textSize="11sp" />
 
                         <TextView
                             android:id="@+id/textTotalAllowance"
@@ -305,7 +295,6 @@
 
                     </LinearLayout>
 
-                    <!-- 수당 상세 항목들 -->
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/allowanceRv"
                         android:layout_width="match_parent"
@@ -320,24 +309,23 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="#F0F0F0"
                         android:layout_marginTop="8dp"
-                        android:layout_marginBottom="8dp" />
+                        android:layout_marginBottom="8dp"
+                        android:background="#F0F0F0" />
 
-                    <!-- 공제 섹션 -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
                         android:orientation="horizontal"
                         android:paddingTop="8dp"
-                        android:paddingBottom="8dp"
-                        android:gravity="center_vertical">
+                        android:paddingBottom="8dp">
 
                         <View
                             android:layout_width="4dp"
                             android:layout_height="16dp"
-                            android:background="#E74C3C"
-                            android:layout_marginEnd="12dp" />
+                            android:layout_marginEnd="12dp"
+                            android:background="#E74C3C" />
 
                         <TextView
                             android:layout_width="0dp"
@@ -351,10 +339,10 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginEnd="12dp"
                             android:text="각종 공제 합계"
                             android:textColor="#BDC3C7"
-                            android:textSize="11sp"
-                            android:layout_marginEnd="12dp" />
+                            android:textSize="11sp" />
 
                         <TextView
                             android:id="@+id/textTotalDeduction"
@@ -367,7 +355,6 @@
 
                     </LinearLayout>
 
-                    <!-- 공제 상세 항목들 -->
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/deductionRv"
                         android:layout_width="match_parent"
@@ -382,23 +369,22 @@
 
             </androidx.cardview.widget.CardView>
 
-            <!-- 실수령액 요약 카드 -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="16dp"
+                app:cardBackgroundColor="#1565C0"
                 app:cardCornerRadius="16dp"
-                app:cardElevation="4dp"
-                app:cardBackgroundColor="#1565C0">
+                app:cardElevation="4dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
                     android:orientation="horizontal"
-                    android:padding="20dp"
-                    android:gravity="center_vertical">
+                    android:padding="20dp">
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -409,19 +395,19 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:alpha="0.8"
                             android:text="실수령액"
                             android:textColor="#FFFFFF"
-                            android:textSize="14sp"
-                            android:alpha="0.8" />
+                            android:textSize="14sp" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:alpha="0.6"
                             android:text="세후 최종 수령 금액"
                             android:textColor="#FFFFFF"
-                            android:textSize="12sp"
-                            android:alpha="0.6"
-                            android:layout_marginTop="2dp" />
+                            android:textSize="12sp" />
 
                     </LinearLayout>
 
@@ -438,16 +424,15 @@
 
             </androidx.cardview.widget.CardView>
 
-            <!-- 지급 정보 -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="20dp"
+                app:cardBackgroundColor="#FFFFFF"
                 app:cardCornerRadius="16dp"
-                app:cardElevation="2dp"
-                app:cardBackgroundColor="#FFFFFF">
+                app:cardElevation="2dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -458,20 +443,19 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp"
                         android:text="지급 정보"
                         android:textColor="#2C3E50"
                         android:textSize="18sp"
-                        android:textStyle="bold"
-                        android:layout_marginBottom="16dp" />
+                        android:textStyle="bold" />
 
-                    <!-- 사원번호 -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
                         android:orientation="horizontal"
                         android:paddingTop="8dp"
-                        android:paddingBottom="8dp"
-                        android:gravity="center_vertical">
+                        android:paddingBottom="8dp">
 
                         <TextView
                             android:layout_width="0dp"
@@ -492,14 +476,13 @@
 
                     </LinearLayout>
 
-                    <!-- 지급일 -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
                         android:orientation="horizontal"
                         android:paddingTop="8dp"
-                        android:paddingBottom="8dp"
-                        android:gravity="center_vertical">
+                        android:paddingBottom="8dp">
 
                         <TextView
                             android:layout_width="0dp"
@@ -520,14 +503,13 @@
 
                     </LinearLayout>
 
-                    <!-- 상태 -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
                         android:orientation="horizontal"
                         android:paddingTop="8dp"
-                        android:paddingBottom="8dp"
-                        android:gravity="center_vertical">
+                        android:paddingBottom="8dp">
 
                         <TextView
                             android:layout_width="0dp"
@@ -541,15 +523,15 @@
                             android:id="@+id/textPayStatus"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:background="@drawable/status_completed_background"
+                            android:paddingStart="12dp"
+                            android:paddingTop="4dp"
+                            android:paddingEnd="12dp"
+                            android:paddingBottom="4dp"
                             android:text="지급완료"
                             android:textColor="#27AE60"
                             android:textSize="12sp"
-                            android:textStyle="bold"
-                            android:background="@drawable/status_completed_background"
-                            android:paddingStart="12dp"
-                            android:paddingEnd="12dp"
-                            android:paddingTop="4dp"
-                            android:paddingBottom="4dp" />
+                            android:textStyle="bold" />
 
                     </LinearLayout>
 
@@ -559,5 +541,55 @@
 
         </LinearLayout>
     </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/emptyView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/headerSection"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageView
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:src="@drawable/ic_description"
+            android:contentDescription="급여 없음"
+            app:tint="#BDC3C7" />
+
+        <TextView
+            android:id="@+id/textEmptyTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="급여 정보가 없습니다."
+            android:textColor="#2C3E50"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textEmptySubtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="2025년 9월 급여 명세서가 아직 업로드되지 않았습니다."
+            android:textColor="#7F8C8D"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/headerSection" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
