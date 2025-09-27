@@ -9,6 +9,8 @@ import com.example.erp_qr.data.NotificationDTO
 import com.example.erp_qr.login.LoginRepository
 import com.example.erp_qr.retrofit.RetrofitProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
@@ -20,27 +22,60 @@ class NotificationViewModel @Inject constructor(
     private val repository: NotificationRepository
 ) : ViewModel() {
 
-    private val _notifications = MutableLiveData<List<NotificationDTO>>()
-    val notifications: LiveData<List<NotificationDTO>> = _notifications
-
-    private val _unreadCount = MutableLiveData<Int>()
-    val unreadCount: LiveData<Int> = _unreadCount
+    private val _uiState = MutableStateFlow(NotificationUiState())
+    val uiState: StateFlow<NotificationUiState> = _uiState
 
     fun loadNotifications() {
         viewModelScope.launch {
-            val list = repository.getUnreadNotifications()
-            _notifications.value = list
-            _unreadCount.value = list.size
+            _uiState.value = _uiState.value.copy(isLoading = true)
+            try {
+                val list = repository.getUnreadNotifications()
+                _uiState.value = _uiState.value.copy(
+                    isLoading = false,
+                    notifications = list,
+                    unreadCount = list.size,
+                    errorMessage = null
+                )
+            } catch (e: Exception) {
+                _uiState.value = _uiState.value.copy(
+                    isLoading = false,
+                    errorMessage = "알림을 불러올 수 없습니다: ${e.message}"
+                )
+            }
         }
     }
 
     fun markNotificationAsRead(id: Long) {
         viewModelScope.launch {
-            repository.markAsRead(id)
-
-            val updatedList = _notifications.value?.filter { it.id != id } ?: emptyList()
-            _notifications.value = updatedList
-            _unreadCount.value = updatedList.size
+            try {
+                repository.markAsRead(id)
+                val updatedList = _uiState.value.notifications.filter { it.id != id }
+                _uiState.value = _uiState.value.copy(
+                    notifications = updatedList,
+                    unreadCount = updatedList.size
+                )
+            } catch (e: Exception) {
+                _uiState.value = _uiState.value.copy(
+                    errorMessage = "읽음 처리 실패: ${e.message}"
+                )
+            }
         }
     }
+
+    fun markAllAsRead() {
+        viewModelScope.launch {
+            try {
+                _uiState.value.notifications.forEach { repository.markAsRead(it.id) }
+                _uiState.value = _uiState.value.copy(
+                    notifications = emptyList(),
+                    unreadCount = 0
+                )
+            } catch (e: Exception) {
+                _uiState.value = _uiState.value.copy(
+                    errorMessage = "전체 읽음 처리 실패: ${e.message}"
+                )
+            }
+        }
+    }
+
 }
