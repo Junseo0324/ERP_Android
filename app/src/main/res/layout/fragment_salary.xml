@@ -44,7 +44,7 @@
                 android:layout_height="36dp"
                 android:background="@drawable/download_button_background"
                 android:text="명세서 다운로드"
-                android:textColor="#7F8C8D"
+                android:textColor="#FFFFFF"
                 android:textSize="12sp"
                 android:paddingStart="12dp"
                 android:paddingEnd="12dp"
