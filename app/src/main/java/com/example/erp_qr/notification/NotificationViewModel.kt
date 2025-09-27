@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.erp_qr.data.NotificationDTO
-import com.example.erp_qr.data.repository.LoginRepository
+import com.example.erp_qr.login.LoginRepository
 import com.example.erp_qr.retrofit.RetrofitProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import retrofit2.Call

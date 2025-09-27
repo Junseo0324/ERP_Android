@@ -1,4 +1,4 @@
-package com.example.erp_qr.data.repository
+package com.example.erp_qr.login
 
 import android.content.SharedPreferences
 import javax.inject.Inject

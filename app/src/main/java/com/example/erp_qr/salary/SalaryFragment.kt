@@ -1,4 +1,4 @@
-package com.example.erp_qr.fragment
+package com.example.erp_qr.salary
 
 import android.content.Intent
 import android.os.Build
@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,7 +16,6 @@ import com.example.erp_qr.R
 import com.example.erp_qr.adapter.SalaryDetailAdapter
 import com.example.erp_qr.databinding.FragmentSalaryBinding
 import com.example.erp_qr.payrollcertificate.PayrollWebActivity
-import com.example.erp_qr.salary.SalaryViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
