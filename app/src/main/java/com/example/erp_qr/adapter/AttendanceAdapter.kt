@@ -1,7 +1,6 @@
 package com.example.erp_qr.adapter
 
 import android.os.Build
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,8 +23,6 @@ class AttendanceAdapter : ListAdapter<AttendanceRecordDTO, AttendanceAdapter.Att
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: AttendanceViewHolder, position: Int) {
-        val item = getItem(position)
-        Log.d("ATTENDANCE_ADAPTER", "Binding item: $item")
         holder.bind(getItem(position))
     }
 
@@ -46,14 +43,11 @@ class AttendanceAdapter : ListAdapter<AttendanceRecordDTO, AttendanceAdapter.Att
             }
 
 
-            // 출퇴근 시간
             binding.textCheckInTime.text = attendance.checkInTime
             binding.textCheckOutTime.text = attendance.checkOutTime
 
-            // 총 근무시간
             binding.textWorkHours.text = attendance.totalWorkHours + "h"
 
-            // 상태
             binding.textAttendanceStatus.text = attendance.attendanceType
             when (attendance.attendanceType) {
                 "정상" -> binding.textAttendanceStatus.setTextColor(0xFF27AE60.toInt())
@@ -63,7 +57,6 @@ class AttendanceAdapter : ListAdapter<AttendanceRecordDTO, AttendanceAdapter.Att
                 else -> binding.textAttendanceStatus.setTextColor(0xFF7F8C8D.toInt())
             }
 
-            // 비고
             val noteText = attendance.notes ?: ""
             if (noteText.isNotBlank()) {
                 binding.layoutNote.visibility = View.VISIBLE

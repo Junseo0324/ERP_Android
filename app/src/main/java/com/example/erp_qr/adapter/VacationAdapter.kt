@@ -9,9 +9,6 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.erp_qr.data.VacationDTO
 import com.example.erp_qr.databinding.ItemVacationBinding
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
-import java.time.temporal.ChronoUnit
 
 @RequiresApi(Build.VERSION_CODES.O)
 class VacationAdapter : ListAdapter<VacationDTO, VacationAdapter.VacationViewHolder>(DiffCallback()) {
