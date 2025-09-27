@@ -1,4 +1,4 @@
-package com.example.erp_qr.vaction
+package com.example.erp_qr.vacation
 
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -7,13 +7,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.erp_qr.data.VacationDTO
 import com.example.erp_qr.login.LoginRepository
-import com.example.erp_qr.retrofit.RetrofitProvider
-import com.example.erp_qr.vacation.VacationRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import javax.inject.Inject
 
 @HiltViewModel
@@ -80,5 +75,5 @@ class VacationViewModel @Inject constructor(
         }
     }
 
-    
+
 }
