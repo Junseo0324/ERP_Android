@@ -7,13 +7,10 @@ import android.os.Environment
 import android.provider.MediaStore
 import android.view.Menu
 import android.view.MenuItem
-import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.example.erp_qr.R
 import com.example.erp_qr.databinding.ActivityPayrollWebBinding
 import com.example.erp_qr.retrofit.RetrofitProvider

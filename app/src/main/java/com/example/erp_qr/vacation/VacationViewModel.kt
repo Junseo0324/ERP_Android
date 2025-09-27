@@ -1,8 +1,5 @@
 package com.example.erp_qr.vacation
 
-import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.erp_qr.data.VacationDTO

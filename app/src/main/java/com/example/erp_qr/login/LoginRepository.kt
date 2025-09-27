@@ -2,7 +2,6 @@ package com.example.erp_qr.login
 
 import android.content.SharedPreferences
 import com.example.erp_qr.retrofit.NetworkService
-import com.example.erp_qr.retrofit.RetrofitProvider.networkService
 import javax.inject.Inject
 
 class LoginRepository @Inject constructor(

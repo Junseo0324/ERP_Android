@@ -1,19 +1,12 @@
 package com.example.erp_qr.login
 
-import android.util.Log
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.erp_qr.login.LoginRepository
-import com.example.erp_qr.retrofit.RetrofitProvider
 import com.example.erp_qr.retrofit.RetrofitProvider.networkService
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import javax.inject.Inject
 
 @HiltViewModel
@@ -55,11 +48,6 @@ class LoginViewModel @Inject constructor(
                 _uiState.value = LoginUiState(errorMessage = "네트워크 오류: ${e.message}")
             }
         }
-    }
-
-
-    companion object{
-        private const val TAG = "LoginViewModel"
     }
 
 }

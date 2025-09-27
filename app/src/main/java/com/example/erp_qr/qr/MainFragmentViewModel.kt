@@ -2,8 +2,6 @@ package com.example.erp_qr.qr
 
 import android.os.Build
 import androidx.annotation.RequiresApi
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.erp_qr.login.LoginRepository
 import dagger.hilt.android.lifecycle.HiltViewModel

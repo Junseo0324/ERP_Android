@@ -2,14 +2,10 @@ package com.example.erp_qr.notification
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.erp_qr.MainViewModel
-import com.example.erp_qr.R
 import com.example.erp_qr.adapter.NotificationAdapter
 import com.example.erp_qr.databinding.ActivityNotificationBinding
 import dagger.hilt.android.AndroidEntryPoint

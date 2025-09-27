@@ -1,6 +1,5 @@
 package com.example.erp_qr.vacation
 
-import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Build
 import android.os.Bundle
@@ -16,7 +15,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.erp_qr.MainActivity
 import com.example.erp_qr.adapter.VacationAdapter
 import com.example.erp_qr.databinding.FragmentVacationBinding
-import com.example.erp_qr.vacation.VacationViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import androidx.core.widget.addTextChangedListener
 import com.example.erp_qr.R

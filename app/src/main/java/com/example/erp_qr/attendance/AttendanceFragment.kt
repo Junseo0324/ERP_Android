@@ -60,8 +60,6 @@ class AttendanceFragment : Fragment() {
     private fun setupObservers() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.uiState.collect { state ->
-                Log.d("ATTENDANCE_FRAGMENT", "attendanceData size=${state.attendanceData?.size}")
-                Log.d("ATTENDANCE_FRAGMENT", "attendanceData =${state.attendanceData}")
                 binding.progressBar.visibility =
                     if (state.isLoading) View.VISIBLE else View.GONE
 
