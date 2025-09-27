@@ -10,6 +10,7 @@ import com.example.erp_qr.MainActivity
 import com.example.erp_qr.R
 import com.example.erp_qr.databinding.ActivityLoginBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
@@ -33,7 +34,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun observeState() {
-        lifecycleScope.launchWhenStarted {
+        lifecycleScope.launch {
             loginViewModel.uiState.collect { state ->
                 when {
                     state.isLoading -> {
