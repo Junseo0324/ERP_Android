@@ -27,10 +27,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this,R.layout.activity_main)
-        binding.viewModel = viewModel
-        binding.lifecycleOwner = this
-
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         setSupportActionBar(binding.toolbar)
 
@@ -42,6 +40,12 @@ class MainActivity : AppCompatActivity() {
         }
         viewModel.refreshUnreadNotifications()
 
+        binding.btnNotification.setOnClickListener {
+            startActivity(Intent(this, NotificationActivity::class.java))
+        }
+        binding.btnLogout.setOnClickListener {
+            viewModel.logout()
+        }
     }
 
     fun showToolbar(show: Boolean) {

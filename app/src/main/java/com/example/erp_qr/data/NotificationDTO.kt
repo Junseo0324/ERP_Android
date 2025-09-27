@@ -39,10 +39,10 @@ data class NotificationDTO(
 
     val iconRes: Int
         get() = when (type) {
-            "attendance_checkIn" -> R.drawable.ic_login   // 출근 아이콘
-            "attendance_checkout" -> R.drawable.ic_exit // 퇴근 아이콘
-            "vacation_approve" -> R.drawable.ic_vacation  // 휴가 승인 아이콘
-            "vacation_pending" -> R.drawable.ic_vacation // 휴가 신청 아이콘
+            "attendance_checkIn" -> R.drawable.ic_login
+            "attendance_checkout" -> R.drawable.ic_exit
+            "vacation_approve" -> R.drawable.ic_vacation
+            "vacation_pending" -> R.drawable.ic_vacation
             else -> R.drawable.ic_notification
         }
 }

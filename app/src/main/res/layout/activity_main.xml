@@ -1,128 +1,115 @@
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <data>
-
-        <import type="android.view.View" />
-
-        <variable
-            name="viewModel"
-            type="com.example.erp_qr.MainViewModel" />
-    </data>
-
-    <LinearLayout
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:elevation="4dp">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:elevation="4dp">
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="16dp">
+
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:background="@drawable/profile_background"
+                android:padding="6dp"
+                android:src="@drawable/ic_person" />
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:padding="16dp">
+                android:layout_marginStart="12dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
 
-                <ImageView
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:background="@drawable/profile_background"
-                    android:padding="6dp"
-                    android:src="@drawable/ic_person" />
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="안녕하세요!"
-                        android:textColor="#2C3E50"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text='@{viewModel.employeeName}'
-                        android:textColor="#7F8C8D"
-                        android:textSize="14sp" />
-                </LinearLayout>
-
-                <FrameLayout
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp">
+                    android:text="안녕하세요!"
+                    android:textColor="#2C3E50"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
 
-                    <ImageView
-                        android:id="@+id/btn_notification"
-                        android:layout_width="36dp"
-                        android:layout_height="36dp"
-                        android:background="?android:attr/selectableItemBackgroundBorderless"
-                        android:onClick="@{() -> viewModel.notification()}"
-                        android:padding="4dp"
-                        android:src="@drawable/ic_notifications"
-                        app:tint="@android:color/black" />
+                <TextView
+                    android:id="@+id/textEmployeeName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="직원 이름"
+                    android:textColor="#7F8C8D"
+                    android:textSize="14sp" />
+            </LinearLayout>
 
-                    <TextView
-                        android:id="@+id/badge_notification"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="top|end"
-                        android:layout_marginTop="2dp"
-                        android:layout_marginEnd="2dp"
-                        android:background="@drawable/notification_badge"
-                        android:gravity="center"
-                        android:minWidth="16dp"
-                        android:minHeight="16dp"
-                        android:padding="2dp"
-                        android:text="@{String.valueOf(viewModel.unreadCount)}"
-                        android:textColor="#FFFFFF"
-                        android:textSize="10sp"
-                        android:visibility="@{viewModel.unreadCount > 0 ? View.VISIBLE : View.GONE}" />
-                </FrameLayout>
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp">
 
                 <ImageView
-                    android:id="@+id/btn_logout"
+                    android:id="@+id/btn_notification"
                     android:layout_width="36dp"
                     android:layout_height="36dp"
                     android:background="?android:attr/selectableItemBackgroundBorderless"
-                    android:onClick="@{() -> viewModel.logout()}"
                     android:padding="4dp"
-                    android:src="@drawable/ic_logout"
+                    android:src="@drawable/ic_notifications"
                     app:tint="@android:color/black" />
-            </LinearLayout>
-        </androidx.appcompat.widget.Toolbar>
 
-        <FrameLayout
-            android:id="@+id/main_fragment_container"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
+                <TextView
+                    android:id="@+id/badge_notification"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top|end"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginEnd="2dp"
+                    android:background="@drawable/notification_badge"
+                    android:gravity="center"
+                    android:minWidth="16dp"
+                    android:minHeight="16dp"
+                    android:padding="2dp"
+                    android:text="0"
+                    android:textColor="#FFFFFF"
+                    android:textSize="10sp"
+                    android:visibility="gone" />
+            </FrameLayout>
 
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/bottom_navigation"
-            style="@style/BottomNavigationView_NoIndicator"
-            android:layout_width="match_parent"
-            android:layout_height="62dp"
-            android:layout_gravity="bottom"
-            android:background="@color/white"
-            android:shadowColor="@color/white"
-            app:itemIconTint="@color/bottom_nav_icon_selector"
-            app:itemRippleColor="@android:color/transparent"
-            app:itemTextColor="@color/bottom_nav_text_selector"
-            app:labelVisibilityMode="labeled"
-            app:menu="@menu/bottom_nav_menu" />
-    </LinearLayout>
+            <ImageView
+                android:id="@+id/btn_logout"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:padding="4dp"
+                android:src="@drawable/ic_logout"
+                app:tint="@android:color/black" />
+        </LinearLayout>
+    </androidx.appcompat.widget.Toolbar>
 
-</layout>
+    <FrameLayout
+        android:id="@+id/main_fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        style="@style/BottomNavigationView_NoIndicator"
+        android:layout_width="match_parent"
+        android:layout_height="62dp"
+        android:layout_gravity="bottom"
+        android:background="@color/white"
+        android:shadowColor="@color/white"
+        app:itemIconTint="@color/bottom_nav_icon_selector"
+        app:itemRippleColor="@android:color/transparent"
+        app:itemTextColor="@color/bottom_nav_text_selector"
+        app:labelVisibilityMode="labeled"
+        app:menu="@menu/bottom_nav_menu" />
+</LinearLayout>
