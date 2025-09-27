@@ -41,8 +41,6 @@ class MainViewModel @Inject constructor(
             state.copy(
                 employeeName = employee["name"] ?: "",
                 department = employee["department"] ?: "",
-                position = employee["position"] ?: "",
-                photo = employee["photo"] ?: ""
             )
         }
     }
