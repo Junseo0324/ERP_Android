@@ -1,102 +1,108 @@
-<?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-
-    <data>
-        <variable
-            name="fragment"
-            type="com.example.erp_qr.qr.MainFragment" />
-        <variable
-            name="viewModel"
-            type="com.example.erp_qr.qr.MainFragmentViewModel"
-            tools:targetApi="26" />
-    </data>
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#F8F9FA"
-        android:fillViewport="true">
+<ScrollView android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F8F9FA"
+    android:fillViewport="true"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <LinearLayout
-                android:id="@+id/qrSection"
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
                 android:layout_margin="16dp"
                 android:background="@drawable/card_background"
-                android:padding="24dp"
-                android:gravity="center">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="출퇴근 QR 코드"
-                    android:textColor="#2C3E50"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    android:layout_marginBottom="8dp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="QR 코드를 스캔하여 출퇴근을 기록하세요"
-                    android:textColor="#7F8C8D"
-                    android:textSize="14sp"
-                    android:layout_marginBottom="32dp"
-                    android:gravity="center" />
-
-                <FrameLayout
-                    android:layout_width="200dp"
-                    android:layout_height="200dp"
-                    android:background="@drawable/qr_background"
-                    android:layout_marginBottom="32dp">
-
-                    <ImageView
-                        android:id="@+id/qr_code"
-                        android:layout_width="180dp"
-                        android:layout_height="180dp"
-                        android:layout_gravity="center"
-                        android:contentDescription="QR Code"
-                        android:scaleType="fitCenter" />
-                </FrameLayout>
+                android:padding="24dp">
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:id="@+id/qrSection"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:layout_marginBottom="8dp">
-
-                    <ImageView
-                        android:layout_width="16dp"
-                        android:layout_height="16dp"
-                        android:src="@drawable/ic_location_on"
-                        android:layout_marginEnd="8dp" />
+                    android:orientation="vertical"
+                    android:gravity="center">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text='@{viewModel.companyName}'
+                        android:text="출퇴근 QR 코드"
+                        android:textColor="#2C3E50"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="8dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="QR 코드를 스캔하여 출퇴근을 기록하세요"
                         android:textColor="#7F8C8D"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
+                        android:layout_marginBottom="32dp"
+                        android:gravity="center" />
 
+                    <FrameLayout
+                        android:layout_width="200dp"
+                        android:layout_height="200dp"
+                        android:background="@drawable/qr_background"
+                        android:layout_marginBottom="32dp">
+
+                        <ImageView
+                            android:id="@+id/qr_code"
+                            android:layout_width="180dp"
+                            android:layout_height="180dp"
+                            android:layout_gravity="center"
+                            android:contentDescription="QR Code"
+                            android:scaleType="fitCenter" />
+                    </FrameLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginBottom="8dp">
+
+                        <ImageView
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:src="@drawable/ic_location_on"
+                            android:layout_marginEnd="8dp" />
+
+                        <TextView
+                            android:id="@+id/companyName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="회사명"
+                            android:textColor="#7F8C8D"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/textToday"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="2025년 9월 26일 금요일"
+                        android:textColor="#7F8C8D"
+                        android:textSize="12sp"
+                        android:layout_marginBottom="8dp" />
                 </LinearLayout>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text='@{viewModel.today}'
-                    android:textColor="#7F8C8D"
-                    android:textSize="12sp"
-                    android:layout_marginBottom="8dp" />
 
-            </LinearLayout>
+                <FrameLayout
+                    android:id="@+id/qrSectionLoading"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#80FFFFFF"
+                    android:gravity="center"
+                    android:visibility="gone">
+
+                    <ProgressBar
+                        style="?android:attr/progressBarStyleLarge"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:indeterminate="true" />
+                </FrameLayout>
+            </FrameLayout>
 
             <!-- 오늘의 근무 현황 -->
             <LinearLayout
@@ -512,4 +518,3 @@
 
         </LinearLayout>
     </ScrollView>
-</layout>

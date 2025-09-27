@@ -1,26 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <data>
-        <variable
-            name="fragment"
-            type="com.example.erp_qr.qr.MainFragment" />
-        <variable
-            name="viewModel"
-            type="com.example.erp_qr.qr.MainFragmentViewModel" />
-    </data>
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#F8F9FA"
-        android:fillViewport="true">
+<ScrollView android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F8F9FA"
+    android:fillViewport="true"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
 
             <LinearLayout
                 android:id="@+id/qrSection"
@@ -79,23 +69,24 @@
                         android:layout_marginEnd="8dp" />
 
                     <TextView
+                        android:id="@+id/companyName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text='@{viewModel.companyName}'
+                        android:text="회사명"
                         android:textColor="#7F8C8D"
                         android:textSize="14sp" />
-
                 </LinearLayout>
+
                 <TextView
+                    android:id="@+id/textToday"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text='@{viewModel.today}'
+                    android:text="2025년 9월 26일 금요일"
                     android:textColor="#7F8C8D"
                     android:textSize="12sp"
                     android:layout_marginBottom="8dp" />
 
             </LinearLayout>
-
             <!-- 오늘의 근무 현황 -->
             <LinearLayout
                 android:layout_width="match_parent"
@@ -510,4 +501,3 @@
 
         </LinearLayout>
     </ScrollView>
-</layout>
