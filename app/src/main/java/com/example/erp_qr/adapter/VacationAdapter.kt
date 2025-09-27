@@ -20,10 +20,8 @@ class VacationAdapter : ListAdapter<VacationDTO, VacationAdapter.VacationViewHol
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(vacation: VacationDTO) {
-            // 휴가 타입
             binding.textVacationType.text = vacation.leaveItemName
 
-            // 상태 표시
             binding.textVacationStatus.text = vacation.displayStatus
             binding.textVacationStatus.setTextColor(
                 when (vacation.status) {
@@ -34,17 +32,13 @@ class VacationAdapter : ListAdapter<VacationDTO, VacationAdapter.VacationViewHol
                 }
             )
 
-            // 날짜/기간
             binding.textVacationDate.text = "${vacation.startDate} ~ ${vacation.endDate}"
             binding.textVacationDuration.text = calculateDuration(vacation.startDate, vacation.endDate)
 
-            // 담당자
             binding.textApprover.text = "${vacation.name} • ${vacation.position} • ${vacation.department}"
 
-            // 사유
             binding.textVacationReason.text = vacation.reason
 
-            // 신청번호
             binding.textApplicationNumber.text = "신청번호: #${vacation.id}"
         }
 

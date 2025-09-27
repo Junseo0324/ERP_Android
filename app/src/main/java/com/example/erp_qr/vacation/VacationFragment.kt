@@ -4,6 +4,7 @@ import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,6 +21,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import androidx.core.widget.addTextChangedListener
 import com.example.erp_qr.R
 import androidx.core.graphics.toColorInt
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
 
 @RequiresApi(Build.VERSION_CODES.O)
 @AndroidEntryPoint
@@ -47,9 +50,9 @@ class VacationFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
-        observeViewModel()
-        binding.editTextSearch.addTextChangedListener { it ->
-            viewModel.filterVacations(it.toString())
+
+        binding.editTextSearch.addTextChangedListener { text ->
+            viewModel.filterVacations(text.toString())
         }
 
         binding.tabAll.setOnClickListener {
@@ -69,11 +72,29 @@ class VacationFragment : Fragment() {
             viewModel.filterByStatus("REJECTED")
         }
 
-        viewModel.statusCount.observe(viewLifecycleOwner) { counts ->
-            binding.tabAll.text = "전체 (${counts["ALL"] ?: 0})"
-            binding.tabApproved.text = "승인 (${counts["APPROVED"] ?: 0})"
-            binding.tabPending.text = "보류 (${counts["PENDING"] ?: 0})"
-            binding.tabRejected.text = "거절 (${counts["REJECTED"] ?: 0})"
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.uiState.collect { state ->
+
+                binding.progressBar.visibility =
+                    if (state.isLoading) View.VISIBLE else View.GONE
+
+                val isEmpty = state.filteredVacations.isEmpty() || state.errorMessage != null
+                binding.emptyView.visibility = if (isEmpty) View.VISIBLE else View.GONE
+                binding.vacationRv.visibility = if (isEmpty) View.GONE else View.VISIBLE
+
+                if (!isEmpty) {
+                    vacationAdapter.submitList(state.filteredVacations)
+                }
+
+                binding.tabAll.text = "전체 (${state.statusCount["ALL"] ?: 0})"
+                binding.tabApproved.text = "승인 (${state.statusCount["APPROVED"] ?: 0})"
+                binding.tabPending.text = "보류 (${state.statusCount["PENDING"] ?: 0})"
+                binding.tabRejected.text = "거절 (${state.statusCount["REJECTED"] ?: 0})"
+
+                state.errorMessage?.let { msg ->
+                    Log.e("VacationFragment", "Error: $msg")
+                }
+            }
         }
 
     }
@@ -82,12 +103,6 @@ class VacationFragment : Fragment() {
         binding.vacationRv.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = vacationAdapter
-        }
-    }
-
-    private fun observeViewModel() {
-        viewModel.filteredData.observe(viewLifecycleOwner) { vacationList ->
-            vacationAdapter.submitList(vacationList)
         }
     }
 
