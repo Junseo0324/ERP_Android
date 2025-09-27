@@ -9,6 +9,10 @@ import com.example.erp_qr.login.LoginRepository
 import com.example.erp_qr.notification.NotificationRepository
 import com.example.erp_qr.retrofit.RetrofitProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
@@ -21,24 +25,9 @@ class MainViewModel @Inject constructor(
     private val notificationRepository: NotificationRepository
 ) : ViewModel() {
 
-    private val _employeeName = MutableLiveData<String>()
-    val employeeName: MutableLiveData<String> get() = _employeeName
-    private val _department = MutableLiveData<String>()
-    val department: MutableLiveData<String> get() = _department
-    private val _position = MutableLiveData<String>()
-    val position: MutableLiveData<String> get() = _position
-    private val _photo = MutableLiveData<String>()
-    val photo: MutableLiveData<String> get() = _photo
+    private val _uiState = MutableStateFlow(MainUiState())
+    val uiState: StateFlow<MainUiState> = _uiState.asStateFlow()
 
-    private var _notificationData = MutableLiveData<List<NotificationDTO>>()
-    val notificationData: MutableLiveData<List<NotificationDTO>> get() = _notificationData
-
-    private val _unreadCount = MutableLiveData<Int>()
-    val unreadCount: MutableLiveData<Int> get() = _unreadCount
-
-    // 로그아웃 상태 관리
-    val isLoggedOut = MutableLiveData<Boolean>(false)
-    val notification = MutableLiveData<Boolean>(false)
 
     init {
         loadUserData()
@@ -48,39 +37,49 @@ class MainViewModel @Inject constructor(
 
     private fun loadUserData(){
         val employee = loginRepository.getLoginData()
-        _employeeName.value = employee["name"] ?: ""
-        _department.value = employee["department"] ?: ""
-        _position.value = employee["position"] ?: ""
-        _photo.value = employee["photo"] ?: ""
+        _uiState.update { state ->
+            state.copy(
+                employeeName = employee["name"] ?: "",
+                department = employee["department"] ?: "",
+                position = employee["position"] ?: "",
+                photo = employee["photo"] ?: ""
+            )
+        }
     }
 
     fun logout(){
         loginRepository.deleteData()
-        isLoggedOut.value = true
+        _uiState.update { it.copy(isLoggedOut = true) }
     }
 
-    fun notification(){
-        notification.value = true
+    fun openNotification() {
+        _uiState.update { it.copy(openNotification = true) }
     }
 
     fun refreshUnreadNotifications() {
         viewModelScope.launch {
+            _uiState.update { it.copy(isLoading = true, errorMessage = null) }
             try {
                 val list = notificationRepository.getUnreadNotifications()
-                _notificationData.value = list
-                _unreadCount.value = list.size
+                _uiState.update { it.copy(
+                    notifications = list,
+                    unreadCount = list.size,
+                    isLoading = false
+                ) }
             } catch (e: Exception) {
-                _notificationData.value = emptyList()
-                _unreadCount.value = 0
-                Log.d(TAG, "refreshUnreadNotifications error: ${e.message}")
+                _uiState.update { it.copy(
+                    notifications = emptyList(),
+                    unreadCount = 0,
+                    isLoading = false,
+                    errorMessage = e.message
+                ) }
             }
         }
     }
 
-
-
-    companion object{
-        private const val TAG = "MainViewModel"
+    fun clearNotificationEvent() {
+        _uiState.update { it.copy(openNotification = false) }
     }
+
 
 }

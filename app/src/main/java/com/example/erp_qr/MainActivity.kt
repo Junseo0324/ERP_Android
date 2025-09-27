@@ -5,11 +5,13 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import com.example.erp_qr.attendance.AttendanceFragment
 import com.example.erp_qr.databinding.ActivityMainBinding
 import com.example.erp_qr.salary.SalaryFragment
@@ -18,6 +20,7 @@ import com.example.erp_qr.login.LoginActivity
 import com.example.erp_qr.notification.NotificationActivity
 import com.example.erp_qr.qr.MainFragment
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @RequiresApi(Build.VERSION_CODES.O)
 @AndroidEntryPoint
@@ -41,7 +44,7 @@ class MainActivity : AppCompatActivity() {
         viewModel.refreshUnreadNotifications()
 
         binding.btnNotification.setOnClickListener {
-            startActivity(Intent(this, NotificationActivity::class.java))
+            viewModel.openNotification()
         }
         binding.btnLogout.setOnClickListener {
             viewModel.logout()
@@ -59,24 +62,33 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupObservers() {
-        viewModel.isLoggedOut.observe(this) {
-            if (it) {
-                val intent = Intent(this, LoginActivity::class.java)
-                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                startActivity(intent)
-                finish()
+        lifecycleScope.launch {
+            viewModel.uiState.collect { state ->
+                binding.textEmployeeName.text = "${state.employeeName} • ${state.department}"
+
+                binding.badgeNotification.text = state.unreadCount.toString()
+                binding.badgeNotification.visibility =
+                    if (state.unreadCount > 0) View.VISIBLE else View.GONE
+
+                binding.progressBar.visibility =
+                    if (state.isLoading) View.VISIBLE else View.GONE
+
+                state.errorMessage?.let { msg ->
+                    Log.e("MainActivity", "Error: $msg")
+                }
+
+                if (state.isLoggedOut) {
+                    val intent = Intent(this@MainActivity, LoginActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    startActivity(intent)
+                    finish()
+                }
+
+                if (state.openNotification) {
+                    startActivity(Intent(this@MainActivity, NotificationActivity::class.java))
+                    viewModel.clearNotificationEvent()
+                }
             }
-        }
-        viewModel.notification.observe(this) {
-            if (it) {
-                startActivity(Intent(this, NotificationActivity::class.java))
-            }
-        }
-        viewModel.unreadCount.observe(this) { unreadCount ->
-            Log.d("MainViewModel", "Unread count updated: $unreadCount")
-            binding.badgeNotification.text = unreadCount.toString()
-            binding.badgeNotification.visibility =
-                if (unreadCount > 0) View.VISIBLE else View.GONE
         }
     }
 
