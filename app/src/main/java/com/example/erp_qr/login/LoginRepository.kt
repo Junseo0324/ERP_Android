@@ -1,21 +1,34 @@
 package com.example.erp_qr.login
 
 import android.content.SharedPreferences
+import com.example.erp_qr.retrofit.NetworkService
+import com.example.erp_qr.retrofit.RetrofitProvider.networkService
 import javax.inject.Inject
 
-class LoginRepository @Inject constructor(private val sharedPreferences: SharedPreferences) {
+class LoginRepository @Inject constructor(
+    private val sharedPreferences: SharedPreferences,
+    private val networkService: NetworkService
+) {
 
-    fun saveLoginData(employeeId: String,employeeNumber: String, email: String, name: String, department: String, position: String, photo: String,companyName: String) {
-        val editor = sharedPreferences.edit()
-        editor.putString("employeeId", employeeId)
-        editor.putString("employeeNumber", employeeNumber)
-        editor.putString("email", email)
-        editor.putString("name", name)
-        editor.putString("department", department)
-        editor.putString("position", position)
-        editor.putString("photo", photo)
-        editor.putString("companyName", companyName)
-        editor.apply()
+    suspend fun login(employeeNumber: String, email: String): Map<String, Any> {
+        return networkService.login(employeeNumber, email)
+    }
+
+    fun saveLoginData(
+        employeeId: String, employeeNumber: String, email: String,
+        name: String, department: String, position: String,
+        photo: String, companyName: String
+    ) {
+        sharedPreferences.edit()
+            .putString("employeeId", employeeId)
+            .putString("employeeNumber", employeeNumber)
+            .putString("email", email)
+            .putString("name", name)
+            .putString("department", department)
+            .putString("position", position)
+            .putString("photo", photo)
+            .putString("companyName", companyName)
+            .apply()
     }
 
     fun getLoginData(): Map<String,String> {

@@ -3,9 +3,14 @@ package com.example.erp_qr.login
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.erp_qr.login.LoginRepository
 import com.example.erp_qr.retrofit.RetrofitProvider
+import com.example.erp_qr.retrofit.RetrofitProvider.networkService
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -16,54 +21,40 @@ class LoginViewModel @Inject constructor(
     private val loginRepository: LoginRepository
 ): ViewModel(){
 
-    var employeeNumber: MutableLiveData<String> = MutableLiveData("")
-    var email: MutableLiveData<String> = MutableLiveData("")
-    var loginSuccess: MutableLiveData<Boolean> = MutableLiveData(false)
-    var errorMessage: MutableLiveData<String> = MutableLiveData("")
+    var employeeNumber = MutableStateFlow("")
+    var email = MutableStateFlow("")
+
+    private val _uiState = MutableStateFlow(LoginUiState())
+    val uiState: StateFlow<LoginUiState> = _uiState
 
 
-    fun Loginsucess(){
-        RetrofitProvider.networkService.login(employeeNumber.value.toString(),email.value.toString()).clone().enqueue(object :
-            Callback<Map<String, Any>> {
-            override fun onResponse(call: Call<Map<String, Any>>, response: Response<Map<String, Any>>) {
-                if(response.isSuccessful){
-                    val responseBody = response.body()
-                    if (responseBody != null) {
-                        val success = responseBody["success"] as? Boolean ?: false
-                        loginSuccess.value = success
+    fun login() {
+        viewModelScope.launch {
+            _uiState.value = LoginUiState(isLoading = true)
 
-                        if (success) {
-                            val employeeId = responseBody["employeeId"]?.toString() ?:""
-                            val employeeName = responseBody["employeeName"]?.toString()?:""
-                            val department = responseBody["department"]?.toString()?:""
-                            val position = responseBody["position"]?.toString()?:""
-                            val photo = responseBody["photo"]?.toString()?:""
-                            val companyName = responseBody["companyName"]?.toString()?:""
-                            loginRepository.saveLoginData(employeeId,
-                                employeeNumber.value.toString(),
-                                email.value.toString(),
-                                employeeName,
-                                department,
-                                position,
-                                photo,
-                                companyName)
-                        }
-                    } else {
-                        errorMessage.value = "Server response is empty."
-                    }
+            try {
+                val result = networkService.login(employeeNumber.value, email.value)
+                val success = result["success"] as? Boolean ?: false
+
+                if (success) {
+                    loginRepository.saveLoginData(
+                        employeeId = result["employeeId"]?.toString() ?: "",
+                        employeeNumber = employeeNumber.value,
+                        email = email.value,
+                        name = result["employeeName"]?.toString() ?: "",
+                        department = result["department"]?.toString() ?: "",
+                        position = result["position"]?.toString() ?: "",
+                        photo = result["photo"]?.toString() ?: "",
+                        companyName = result["companyName"]?.toString() ?: ""
+                    )
+                    _uiState.value = LoginUiState(isSuccess = true)
                 } else {
-                    errorMessage.value = "Server error: ${response.message()}"
+                    _uiState.value = LoginUiState(errorMessage = "로그인 실패")
                 }
+            } catch (e: Exception) {
+                _uiState.value = LoginUiState(errorMessage = "네트워크 오류: ${e.message}")
             }
-
-            override fun onFailure(call: Call<Map<String, Any>>, t: Throwable) {
-                errorMessage.value = "Network error: ${t.message}"
-                Log.d(TAG, "onFailure: ${t.message}")
-            }
-
-        })
-
-
+        }
     }
 
 

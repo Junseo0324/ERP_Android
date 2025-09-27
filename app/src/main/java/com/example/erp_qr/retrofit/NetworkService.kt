@@ -15,8 +15,8 @@ import retrofit2.http.Path
 interface NetworkService {
     @FormUrlEncoded
     @POST("/android/login")
-    fun login(@Field("employeeNumber") employeeNumber: String,
-              @Field("email") email: String): Call<Map<String,Any>>
+    suspend fun login(@Field("employeeNumber") employeeNumber: String,
+              @Field("email") email: String): Map<String,Any>
 
     //직원의 근태 조회  EX) localhost:8080/record/android/list/11/10
     @GET("/record/android/list/{employeeId}/{month}")
