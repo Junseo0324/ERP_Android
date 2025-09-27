@@ -8,6 +8,9 @@ import androidx.lifecycle.viewModelScope
 import com.example.erp_qr.data.VacationDTO
 import com.example.erp_qr.login.LoginRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -16,14 +19,8 @@ class VacationViewModel @Inject constructor(
     private val loginRepository: LoginRepository,
     private val vacationRepository: VacationRepository) : ViewModel() {
 
-    private val _vacationData = MutableLiveData<List<VacationDTO>>()
-    val vacationData: LiveData<List<VacationDTO>> get() = _vacationData
-
-    private val _filteredData = MutableLiveData<List<VacationDTO>>()
-    val filteredData: LiveData<List<VacationDTO>> get() = _filteredData
-
-    private val _statusCount = MutableLiveData<Map<String, Int>>()
-    val statusCount: LiveData<Map<String, Int>> get() = _statusCount
+    private val _uiState = MutableStateFlow(VacationUiState())
+    val uiState: StateFlow<VacationUiState> = _uiState.asStateFlow()
 
 
     init {
