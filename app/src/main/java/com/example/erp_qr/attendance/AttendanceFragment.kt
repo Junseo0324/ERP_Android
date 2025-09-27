@@ -2,18 +2,21 @@ package com.example.erp_qr.attendance
 
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.erp_qr.MainActivity
 import com.example.erp_qr.adapter.AttendanceAdapter
 import com.example.erp_qr.data.AttendanceRecordDTO
 import com.example.erp_qr.databinding.FragmentAttendanceBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import java.time.YearMonth
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -55,11 +58,52 @@ class AttendanceFragment : Fragment() {
 
 
     private fun setupObservers() {
-        viewModel.attendanceData.observe(viewLifecycleOwner) { attendanceList ->
-            adapter.submitList(attendanceList)
-            updateSummary(attendanceList)
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.uiState.collect { state ->
+                Log.d("ATTENDANCE_FRAGMENT", "attendanceData size=${state.attendanceData?.size}")
+                Log.d("ATTENDANCE_FRAGMENT", "attendanceData =${state.attendanceData}")
+                binding.progressBar.visibility =
+                    if (state.isLoading) View.VISIBLE else View.GONE
+
+                if (state.isLoading) {
+                    binding.recyclerViewAttendance.visibility = View.GONE
+                    binding.emptyView.visibility = View.GONE
+                    return@collect
+                }
+
+                val parts = state.currentMonth.split("-")
+                val year = parts.getOrNull(0) ?: ""
+                val month = parts.getOrNull(1)?.toIntOrNull() ?: 0
+
+                if (state.attendanceData.isNullOrEmpty()) {
+                    binding.cardMonthlySummary.visibility = View.GONE
+                    binding.recyclerViewAttendance.visibility = View.GONE
+                    binding.emptyView.visibility = View.VISIBLE
+
+                    binding.textEmptyTitle.text = if (state.errorMessage == null) {
+                        "근태 기록이 없습니다."
+                    } else {
+                        "근태 정보를 불러올 수 없습니다."
+                    }
+
+                    binding.textEmptySubtitle.text = if (state.errorMessage == null) {
+                        "${year}년 ${month}월 근태 기록이 아직 등록되지 않았습니다."
+                    } else {
+                        "네트워크 상태를 확인하시거나 다시 시도해주세요."
+                    }
+                } else {
+                    binding.cardMonthlySummary.visibility = View.VISIBLE
+                    binding.recyclerViewAttendance.visibility = View.VISIBLE
+                    binding.emptyView.visibility = View.GONE
+
+
+                    adapter.submitList(state.attendanceData.toList())
+                    updateSummary(state.attendanceData)
+                }
+            }
         }
     }
+
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun setupMonthNavigation() {

@@ -1,51 +1,53 @@
 package com.example.erp_qr.attendance
 
-import android.os.Build
-import android.util.Log
-import androidx.annotation.RequiresApi
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.erp_qr.data.AttendanceRecordDTO
 import com.example.erp_qr.login.LoginRepository
-import com.example.erp_qr.retrofit.RetrofitProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.threeten.bp.LocalDate
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import javax.inject.Inject
 
 @HiltViewModel
 class AttendanceViewModel @Inject constructor(
     private val loginRepository: LoginRepository,
-    private val repository: AttendanceRepository
+    private val attendanceRepository: AttendanceRepository
 ) : ViewModel(){
 
-    private val _attendanceData = MutableLiveData<List<AttendanceRecordDTO>>()
-    val attendanceData: LiveData<List<AttendanceRecordDTO>> get() = _attendanceData
-
-    private var currentMonth: String = ""
-
+    private val _uiState = MutableStateFlow(AttendanceUiState())
+    val uiState: StateFlow<AttendanceUiState> = _uiState
 
     init {
         val data = loginRepository.getLoginData()
         val employeeId = data["employeeId"] ?: "No ID Found"
         val currentMonth = LocalDate.now().monthValue.toString()
-        Log.d(TAG, "currentMonth: $currentMonth")
         loadAttendanceData(employeeId, currentMonth)
     }
 
     fun loadAttendanceData(employeeId: String, month: String) {
         viewModelScope.launch {
+            _uiState.update { it.copy(isLoading = true, errorMessage = null) }
             try {
-                val result = repository.getAttendanceList(employeeId, month)
-                _attendanceData.value = result
+                val result = attendanceRepository.getAttendanceList(employeeId, month)
+                _uiState.update { state ->
+                    state.copy(
+                        isLoading = false,
+                        attendanceData = result,
+                        currentMonth = month,
+                        errorMessage = null
+                    )
+                }
             } catch (e: Exception) {
-                Log.e(TAG, "Error loading attendance: ${e.message}", e)
-                _attendanceData.value = emptyList()
+                _uiState.update { state ->
+                    state.copy(
+                        isLoading = false,
+                        attendanceData = emptyList(),
+                        errorMessage = e.message ?: "알 수 없는 에러"
+                    )
+                }
             }
         }
     }
@@ -53,14 +55,7 @@ class AttendanceViewModel @Inject constructor(
     fun loadAttendanceForMonth(month: String) {
         val data = loginRepository.getLoginData()
         val employeeId = data["employeeId"] ?: "No ID Found"
-        currentMonth = month
-        loadAttendanceData(employeeId, currentMonth)
+        loadAttendanceData(employeeId, month)
     }
-
-    companion object{
-        private const val TAG = "AttendanceViewModel"
-    }
-
-
 
 }

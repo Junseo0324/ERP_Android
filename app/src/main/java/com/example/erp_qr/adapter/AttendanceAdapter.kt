@@ -1,6 +1,7 @@
 package com.example.erp_qr.adapter
 
 import android.os.Build
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,6 +24,8 @@ class AttendanceAdapter : ListAdapter<AttendanceRecordDTO, AttendanceAdapter.Att
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: AttendanceViewHolder, position: Int) {
+        val item = getItem(position)
+        Log.d("ATTENDANCE_ADAPTER", "Binding item: $item")
         holder.bind(getItem(position))
     }
 
