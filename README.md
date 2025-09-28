@@ -29,19 +29,37 @@
 
 > 본 프로젝트는 **MVVM 패턴 기반의 클라이언트 구조**로 만들었습니다.
 
+
 ## 기술 스택
 
 | 분류        | 사용 기술 / 도구                                   |
 | --------- | -------------------------------------------- |
-| **개발 언어** | Kotlin                         |
-| **프레임워크** | Android(MVVM)                    |
-| **상태 관리** | LiveData, ViewModel, DataBinding                   |
-| **DI**    | Hilt                                         |
-| **스토리지**  | SharedPreferences                |
-| **QR**   | ZXing         |
-| **협업 도구** | GitHub,  Notion                        |
+| **개발 언어** | Kotlin |
+| **아키텍처** | Android (MVVM 패턴) |
+| **상태 관리** | ViewModel, LiveData, DataBinding, StateFlow, Flow, ViewBinding |
+| **비동기 처리** | Coroutines |
+| **네트워크** | Retrofit, OkHttp |
+| **DI** | Hilt |
+| **스토리지** | SharedPreferences |
+| **UI / Jetpack** | RecyclerView, ConstraintLayout |
+| **QR 인식** | ZXing |
+| **협업 도구** | GitHub, Notion |
+
 
 ---
-
 ## 서비스 UI
-<img src = "images/appinfo_1.png" width ="30%" /> <img src = "images/appinfo_2.png" width= "30%"/>
+| 메인 | 휴가 | 근태 |
+| ------ | ---------- | ---------- |
+| <p align="center"><img width="70%" alt="image" src="https://github.com/user-attachments/assets/8edd5f71-b29e-482d-905f-907a6f7a6bba" /></p>| <p align="center"><img width="70%"  alt="image" src="https://github.com/user-attachments/assets/b665f974-23df-4f02-b382-c03e91901c23" /></p>| <p align="center"><img width="70%" alt="image" src="https://github.com/user-attachments/assets/627bd57e-37b6-484f-85f3-499fb0ee36a8" /></p> |
+
+
+
+| 급여 | 알림 | x |
+| ------ | ---------- | ---------- |
+| <p align="center"><img width="70%" alt="image" src="https://github.com/user-attachments/assets/85579f42-ee1f-4a1d-801e-f6f6f53c2092" /> </p>|<p align="center"> <img width="70%" alt="image" src="https://github.com/user-attachments/assets/83adc8e1-a5b7-45b8-a022-778505cd3d57" /></p> | &nbsp; |
+
+
+
+
+
+
