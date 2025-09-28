@@ -9,6 +9,9 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.erp_qr.data.VacationDTO
 import com.example.erp_qr.databinding.ItemVacationBinding
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.time.temporal.ChronoUnit
 
 @RequiresApi(Build.VERSION_CODES.O)
 class VacationAdapter : ListAdapter<VacationDTO, VacationAdapter.VacationViewHolder>(DiffCallback()) {
@@ -42,10 +45,13 @@ class VacationAdapter : ListAdapter<VacationDTO, VacationAdapter.VacationViewHol
 
         private fun calculateDuration(start: String, end: String): String {
             return try {
-                val startDate = start.split("-")
-                val endDate = end.split("-")
+                val year = LocalDate.now().year
+                val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
 
-                val days = endDate[1].toInt() - startDate[1].toInt()
+                val startDate = LocalDate.parse("$year-$start", formatter)
+                val endDate = LocalDate.parse("$year-$end", formatter)
+
+                val days = ChronoUnit.DAYS.between(startDate, endDate) + 1
                 "${days}일"
             } catch (e: Exception) {
                 "기간 계산 불가"
